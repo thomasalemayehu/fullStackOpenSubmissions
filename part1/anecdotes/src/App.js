@@ -45,7 +45,6 @@ function App() {
     newVotes[key] += 1;
 
     setVotes(newVotes);
-    console.log("Voting", newVotes);
   };
 
   return (
