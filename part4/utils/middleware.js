@@ -1,4 +1,6 @@
+/* eslint-disable no-undef */
 const logger = require('./logger');
+const jwt = require('jsonwebtoken');
 
 const requestLogger = (request, response, next) => {
 	logger.info('Method:', request.method);
@@ -13,19 +15,62 @@ const unknownEndpoint = (request, response) => {
 };
 
 const errorHandler = (error, request, response, next) => {
-	logger.error(error.message);
-
+	
 	if (error.name === 'CastError') {
 		return response.status(400).send({ message: 'malformatted id' });
 	} else if (error.name === 'ValidationError') {
 		return response.status(400).json({ message: error.message });
 	}
+	else if (error.name === 'MongoServerError') {
+		return response.status(400).json({ message: error.message });
+	}
+	else if (
+		error.name === 'NoAuthenticationToken' ||
+	error.name == 'InvalidAuthenticationToken'
+	) {
+		return response.status(401).json({ message: error.message });
+	}else if (error.name == 'JsonWebTokenError'){
+		response.status(401).json({message:'Invalid/malformed authentication token'});
+	}else if (error.name === 'TokenExpiredError'){
+		response.status(401).json({message:'Authentication token has expired. Login again!'});
+	}else{
+		logger.error(error.name);
+		next(error);
+	}
+	//
+};
 
-	next(error);
+const authenticationHandler = (request, _ ,next)=>{
+	const authorization = request.get('authorization');
+	let token = '';
+	if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+		token = authorization.substring(7);
+		const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+
+		if(!decodedToken.id){
+			const invalidAuthTokenError = new Error(
+				'Authentication token is either expired or invalid'
+			);
+			invalidAuthTokenError.name = 'InvalidAuthenticationToken';
+			throw invalidAuthTokenError;
+		}
+
+		request.decodedToken = decodedToken;
+		next();
+	}else{
+		const noAuthTokenError = new Error(
+			'Authentication token is not found in request header',
+		);
+		noAuthTokenError.name = 'NoAuthenticationToken';
+		throw noAuthTokenError;
+	}
+	return null;
+  
 };
 
 module.exports = {
 	requestLogger,
 	unknownEndpoint,
+	authenticationHandler,
 	errorHandler,
 };
