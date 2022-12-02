@@ -1,17 +1,19 @@
-import React, { useRef } from "react";
+import React, { useRef } from 'react'
 
-import { useDispatch } from "react-redux";
-import { createNewAnecdote } from "../reducers/anecdoteReducer";
+import { useDispatch } from 'react-redux'
+import { createAnecdote } from '../slices/anecdoteSlice'
+import { setNotification } from '../slices/notificationSlice'
 
 function AnecdoteForm() {
-  const anecdoteRef = useRef();
-  const dispatch = useDispatch();
+  const anecdoteRef = useRef()
+  const dispatch = useDispatch()
 
-  const createAnecdote = (event) => {
-    event.preventDefault();
-    dispatch(createNewAnecdote(anecdoteRef.current.value));
-    anecdoteRef.current.value = "";
-  };
+  const createNewAnecdote = async(event) => {
+    event.preventDefault()
+    dispatch(createAnecdote(anecdoteRef.current.value))
+    dispatch(setNotification(`${anecdoteRef.current.value} added!`))
+    anecdoteRef.current.value = ''
+  }
   return (
     <>
       <h2>create new</h2>
@@ -19,12 +21,12 @@ function AnecdoteForm() {
         <div>
           <input ref={anecdoteRef} />
         </div>
-        <button type="submit" onClick={createAnecdote}>
+        <button type="submit" onClick={createNewAnecdote}>
           create
         </button>
       </form>
     </>
-  );
+  )
 }
 
-export default AnecdoteForm;
+export default AnecdoteForm

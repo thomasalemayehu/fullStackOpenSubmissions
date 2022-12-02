@@ -1,28 +1,43 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { voteForAnecdote } from "../reducers/anecdoteReducer";
-import Anecdote from "./Anecdote";
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { voteAnecdote } from '../slices/anecdoteSlice'
+import Anecdote from './Anecdote'
+import { useEffect } from 'react'
+import { initializeAnecdotes } from '../slices/anecdoteSlice'
 
 function AnecdoteList() {
-  const anecdotes = useSelector((state) =>
-    state.sort((former, latter) => latter.votes - former.votes)
-  );
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const vote = (id) => {
-    dispatch(voteForAnecdote(id));
-  };
+
+  useEffect(() => {
+    dispatch(initializeAnecdotes())
+  }, [dispatch])
+
+  const filter = useSelector((state) => state.filter)
+  let anecdotes = useSelector((state) => state.anecdotes)
+    .filter((anecdote) => anecdote.content.toLowerCase().includes(filter.filterQuery.toLowerCase()))
+    .sort((former,latter) => latter.votes - former.votes)
+
+  const vote = (votes,id) => {
+    dispatch(voteAnecdote(votes,id))
+  }
 
   return (
     <>
-      {anecdotes.map(({ id, content, votes }) => (
-        <div key={id}>
-          <Anecdote id={id} content={content} votes={votes} vote={vote} />
-        </div>
-      ))}
+      {
+        anecdotes.length > 0
+          ?
+          anecdotes.map(({ id, content, votes }) => (
+            <div key={id}>
+              <Anecdote id={id} content={content} votes={votes} vote={vote} />
+            </div>
+          ))
+          :
+          <h1>No Results</h1>
+      }
     </>
-  );
+  )
 }
 
-export default AnecdoteList;
+export default AnecdoteList

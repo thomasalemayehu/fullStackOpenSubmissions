@@ -1,14 +1,17 @@
-const Notification = () => {
-  const style = {
-    border: 'solid',
-    padding: 10,
-    borderWidth: 1
-  }
+import React from 'react'
+import PropTypes from 'prop-types'
+
+function Notification({ id, content }) {
   return (
-    <div style={style}>
-      render here notification...
+    <div>
+      {id} : {content}
     </div>
   )
+}
+
+Notification.propTypes = {
+  id: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
 }
 
 export default Notification
