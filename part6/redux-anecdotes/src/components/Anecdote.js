@@ -6,7 +6,7 @@ function Anecdote({ id, content, votes, vote }) {
       <div>{content}</div>
       <div>
         has {votes}
-        <button onClick={() => vote(votes,id)}>vote</button>
+        <button onClick={() => vote(votes, id)}>vote</button>
       </div>
     </>
   )

@@ -1,17 +1,15 @@
 import React, { useRef } from 'react'
-
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { createAnecdote } from '../slices/anecdoteSlice'
 import { setNotification } from '../slices/notificationSlice'
 
-function AnecdoteForm() {
+function AnecdoteForm(props) {
   const anecdoteRef = useRef()
-  const dispatch = useDispatch()
 
-  const createNewAnecdote = async(event) => {
+  const createNewAnecdote = async (event) => {
     event.preventDefault()
-    dispatch(createAnecdote(anecdoteRef.current.value))
-    dispatch(setNotification(`${anecdoteRef.current.value} added!`))
+    props.createAnecdote(anecdoteRef.current.value)
+    props.setNotification(`${anecdoteRef.current.value} added!`)
     anecdoteRef.current.value = ''
   }
   return (
@@ -29,4 +27,10 @@ function AnecdoteForm() {
   )
 }
 
-export default AnecdoteForm
+const mapDispatchToProps = {
+  createAnecdote,
+  setNotification,
+}
+
+const ConnectedAnecdoteForm = connect(null, mapDispatchToProps)(AnecdoteForm)
+export default ConnectedAnecdoteForm

@@ -1,14 +1,12 @@
-import React,{ useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useRef } from 'react'
 import { addFilterPhrase } from '../slices/filter.slice'
+import { connect } from 'react-redux'
 
-function Filter() {
-  const dispatch = useDispatch()
-
+function Filter(props) {
   const formRef = useRef()
 
   const changeQueryFilter = () => {
-    dispatch(addFilterPhrase(formRef.current.value))
+    props.addFilterPhrase(formRef.current.value)
   }
 
   const style = {
@@ -25,4 +23,9 @@ function Filter() {
   )
 }
 
-export default Filter
+const mapDispatchToProps = {
+  addFilterPhrase,
+}
+
+const ConnectedFilter = connect(null, mapDispatchToProps)(Filter)
+export default ConnectedFilter

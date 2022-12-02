@@ -10,35 +10,37 @@ const asObject = (anecdote) => {
 }
 
 const initialState = {
-  'notifications':[]
+  notifications: [],
 }
 
 const notificationSlice = createSlice({
-  name:'notifications',
+  name: 'notifications',
   initialState,
-  reducers:{
-    addNotification(state,action){
-      state.notifications.push((action.payload))
+  reducers: {
+    addNotification(state, action) {
+      state.notifications.push(action.payload)
     },
 
-    removeNotification(state,action){
-      state.notifications = state.notifications.filter((notification) => notification.id !== action.payload )
-    }
-  }
+    removeNotification(state, action) {
+      state.notifications = state.notifications.filter(
+        (notification) => notification.id !== action.payload
+      )
+    },
+  },
 })
 
-
-const setNotification = (content,displayTime=1) => {
-  return dispatch => {
+const setNotification = (content, displayTime = 1) => {
+  return (dispatch) => {
     const notification = asObject(content)
     dispatch(addNotification(notification))
 
     setTimeout(() => {
       dispatch(removeNotification(notification.id))
-    }, displayTime*1000)
+    }, displayTime * 1000)
   }
 }
 export default notificationSlice.reducer
-export const { addNotification,removeNotification } = notificationSlice.actions
+export const { addNotification, removeNotification } =
+  notificationSlice.actions
 
 export { setNotification }

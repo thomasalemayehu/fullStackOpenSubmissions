@@ -11,7 +11,7 @@ const getAllAnecdotes = async () => {
 }
 
 const createNewAnecdote = async (anecdote) => {
-  const request = await axios.post(baseUrl, { 'content':anecdote,'votes':0 })
+  const request = await axios.post(baseUrl, { content: anecdote, votes: 0 })
 
   if (request.status === 201) {
     return request.data
@@ -20,11 +20,10 @@ const createNewAnecdote = async (anecdote) => {
   return null
 }
 
-const voteForAnecdote = async (votes,id) => {
-  const request = await axios.patch(`${baseUrl}/${id}`,{ votes:votes+1 })
+const voteForAnecdote = async (votes, id) => {
+  const request = await axios.patch(`${baseUrl}/${id}`, { votes: votes + 1 })
 
   return request.data
 }
-
 
 export default { getAllAnecdotes, createNewAnecdote, voteForAnecdote }
