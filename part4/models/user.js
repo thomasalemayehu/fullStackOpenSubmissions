@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
 const userSchema = mongoose.Schema({
 	username: {
@@ -17,18 +17,22 @@ const userSchema = mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Blog',
 	}],
+	comments:[{
+		type:mongoose.Schema.Types.ObjectId,
+		ref:'Comment',
+	}]
 });
 
 
 
-userSchema.pre('save', async function (next) {
-	try{
-		const salt = await bcrypt.genSalt();
-		this.password = await bcrypt.hash(this.password, salt);
-	}catch(e){
-		next(e);
-	}
-});
+// userSchema.pre('save', async function (next) {
+// 	try{
+// 		this.password = bcrypt.hashSync(this.password, 4);
+// 	}catch(e){
+// 		console.log(e);
+// 		next(e);
+// 	}
+// });
 
 userSchema.set('toJSON', {
 	transform: (document, returnedObject) => {

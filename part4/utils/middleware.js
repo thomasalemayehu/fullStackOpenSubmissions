@@ -41,8 +41,10 @@ const errorHandler = (error, request, response, next) => {
 };
 
 const authenticationHandler = (request, _ ,next)=>{
-	const authorization = request.get('authorization');
+
+	const authorization = request.headers.authorization;
 	let token = '';
+		
 	if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
 		token = authorization.substring(7);
 		const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
@@ -65,6 +67,7 @@ const authenticationHandler = (request, _ ,next)=>{
 		throw noAuthTokenError;
 	}
 	return null;
+	
   
 };
 

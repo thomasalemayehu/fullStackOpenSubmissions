@@ -1,20 +1,29 @@
 
 ### Register Thomas
-POST http://localhost:5000/api/user
+POST http://localhost:5000/auth/register
 Content-Type: application/json
 
 {
-    "username":"Thomas",
+    "username":"thomas2alexmech@gmail.com",
+    "password":"mypasswordisgood"
+}
+
+####
+POST http://localhost:5000/auth/register
+Content-Type: application/json
+
+{
+    "username":"thomasalexmech@gmail.com",
     "password":"mypasswordisgood"
 }
 
 
 ### Login Thomas
-POST http://localhost:5000/api/user/login
+POST http://localhost:5000/auth/login
 Content-Type: application/json
 
 {
-    "username":"Thomas",
+    "username":"thomas2alexmech@gmail.com",
     "password":"mypasswordisgood"
 }
 
@@ -29,11 +38,16 @@ Content-Type: application/json
 
 
 ### Login Abel
-POST http://localhost:5000/api/user/login
+POST http://localhost:5000/auth/login
 Content-Type: application/json
 
 {
     "username":"Abel",
-    "password":"mypasswordisgood"
+    "password":"mypasswordisbad"
 }
 
+
+
+
+### Testing Routes
+POST http://localhost:5000/test/populate

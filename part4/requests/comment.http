@@ -1,0 +1,7 @@
+POST http://localhost:5000/comment/6394a11e3a4d9e182d749575
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRob21hczJhbGV4bWVjaEBnbWFpbC5jb20iLCJpZCI6IjYzOTU3ZGUxYjk2MzU5MjA1MDkyYTQ0ZSIsImlhdCI6MTY3MDc0MTQ3NCwiZXhwIjoxNjcwNzQ3NDc0fQ.jWWMkmw5NqtlJEJ9Gsym6nWU7wc-dkJDtUWi-Gj2CwI
+Content-Type: application/json
+
+{
+    "comment":"Bro what is this comment"
+}

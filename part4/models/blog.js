@@ -8,16 +8,20 @@ const blogSchema = new mongoose.Schema({
 	author: String,
 	url: {
 		type: String,
-		required:[true,'URL is required for blog.']
+		required: [true, 'URL is required for blog.'],
 	},
 	likes: {
 		type: Number,
 		default: 0,
 	},
-	userId:{
-		type:mongoose.Schema.Types.ObjectId,
-		ref:'User',
-	}
+	userId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+	},
+	comments: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Comment',
+	}],
 });
 
 blogSchema.set('toJSON', {

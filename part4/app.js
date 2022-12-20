@@ -20,10 +20,13 @@ app.use(middleware.requestLogger);
 // controllers
 const blogRouter = require('./controllers/blog');
 const userRouter = require('./controllers/user');
+const commentRouter = require('./controllers/comment');
+const testRouter = require('./controllers/test');
 
 app.use('/auth',userRouter);
+app.use('/test',testRouter);
 app.use('/api', middleware.authenticationHandler,blogRouter);
-
+app.use('/comment',middleware.authenticationHandler,commentRouter);
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
